@@ -1,8 +1,7 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import { eventsHandler } from "./controllers/event.controller";
 import { addFact } from "./controllers/facts.controller";
-import { sendEventsToAll } from "./helpers/sentEventsToAll";
 
 const app = express();
 const port = process.env.PORT || 4000;

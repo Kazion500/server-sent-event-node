@@ -14,8 +14,8 @@ export const eventsHandler = (req: Request, res: Response) => {
 
   const data = `data: ${JSON.stringify(facts)}`;
 
-  // send the latest facts to the client
-  res.write(data);
+  // // send the latest facts to the client
+  // res.write(data);
 
   const clientId = uuidV4();
 
@@ -29,9 +29,12 @@ export const eventsHandler = (req: Request, res: Response) => {
 
   req.on("close", () => {
     console.log(`${clientId} Connection closed`);
-    res.emit("close");
     // remove the client from the clients array
-    res.write(`data: ${clientId} has disconnected\n\n`);
+    clients.forEach((client: any) => {
+      if (client.id != clientId) {
+        client.res.write(`data: ${clientId} has disconnected\n\n`);
+      }
+    });
     newClients.push(...clients.filter((client: any) => client.id !== clientId));
   });
 };
